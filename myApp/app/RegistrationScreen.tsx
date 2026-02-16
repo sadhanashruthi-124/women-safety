@@ -1,16 +1,20 @@
-import React, { useState } from "react";
-import {View,Text,TextInput,TouchableOpacity, StyleSheet,
+import React from "react";
+import { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
 } from "react-native";
 
-const RegistrationScreen = (): JSX.Element => {
+export default function RegistrationScreen() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
 
   const handleRegister = () => {
-    console.log("Name:", name);
-    console.log("Phone:", phone);
-    console.log("Password:", password);
+    console.log(name, phone, password);
   };
 
   return (
@@ -22,7 +26,7 @@ const RegistrationScreen = (): JSX.Element => {
         style={styles.input}
         placeholder="Full Name"
         value={name}
-        onChangeText={(text) => setName(text)}
+        onChangeText={setName}
       />
 
       <TextInput
@@ -30,7 +34,7 @@ const RegistrationScreen = (): JSX.Element => {
         placeholder="Phone Number"
         keyboardType="phone-pad"
         value={phone}
-        onChangeText={(text) => setPhone(text)}
+        onChangeText={setPhone}
       />
 
       <TextInput
@@ -38,7 +42,7 @@ const RegistrationScreen = (): JSX.Element => {
         placeholder="Password"
         secureTextEntry
         value={password}
-        onChangeText={(text) => setPassword(text)}
+        onChangeText={setPassword}
       />
 
       <TouchableOpacity style={styles.button} onPress={handleRegister}>
@@ -46,29 +50,26 @@ const RegistrationScreen = (): JSX.Element => {
       </TouchableOpacity>
     </View>
   );
-};
-
-export default RegistrationScreen;
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f5f7fa",
     justifyContent: "center",
     paddingHorizontal: 30,
+    backgroundColor: "#f5f7fa",
   },
   title: {
-    fontSize: 28,
+    fontSize: 26,
     fontWeight: "bold",
     textAlign: "center",
-    marginBottom: 10,
-    color: "#6A0DAD",
+    marginBottom: 8,
   },
   subtitle: {
     fontSize: 16,
     textAlign: "center",
-    marginBottom: 30,
-    color: "#555",
+    marginBottom: 25,
+    color: "gray",
   },
   input: {
     height: 50,
@@ -81,14 +82,14 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "#6A0DAD",
-    paddingVertical: 15,
+    padding: 15,
     borderRadius: 10,
     alignItems: "center",
     marginTop: 10,
   },
   buttonText: {
     color: "#fff",
-    fontSize: 16,
     fontWeight: "bold",
+    fontSize: 16,
   },
 });
