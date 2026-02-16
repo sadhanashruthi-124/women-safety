@@ -1,0 +1,153 @@
+import React, { useState } from "react";
+import {
+    View,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    StyleSheet,
+    Alert,
+} from "react-native";
+import { Link, useRouter } from "expo-router";
+
+const LoginScreen = (): JSX.Element => {
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [otp, setOtp] = useState("");
+    const [isOtpSent, setIsOtpSent] = useState(false);
+    const router = useRouter();
+
+    const handleSendOtp = () => {
+        if (phoneNumber.length < 10) {
+            Alert.alert("Invalid Phone Number", "Please enter a valid 10-digit phone number.");
+            return;
+        }
+        // Simulate sending OTP
+        setIsOtpSent(true);
+        Alert.alert("OTP Sent", "A verification code has been sent to your phone.");
+    };
+
+    const handleVerifyOtp = () => {
+        if (otp.length !== 4) { // Assuming 4-digit OTP for simplicity
+            Alert.alert("Invalid OTP", "Please enter a valid 4-digit OTP.");
+            return;
+        }
+        // Simulate verification
+        Alert.alert("Success", "Logged in successfully!", [
+            { text: "OK", onPress: () => console.log("Navigate to Home") }
+        ]);
+    };
+
+    return (
+        <View style={styles.container}>
+            <Text style={styles.title}>SHE-GUARD</Text>
+            <Text style={styles.subtitle}>
+                {isOtpSent ? "Enter Verification Code" : "Login to Your Account"}
+            </Text>
+
+            {!isOtpSent ? (
+                <>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Phone Number"
+                        keyboardType="phone-pad"
+                        value={phoneNumber}
+                        onChangeText={setPhoneNumber}
+                        maxLength={10}
+                    />
+                    <TouchableOpacity style={styles.button} onPress={handleSendOtp}>
+                        <Text style={styles.buttonText}>Send OTP</Text>
+                    </TouchableOpacity>
+                </>
+            ) : (
+                <>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Enter OTP"
+                        keyboardType="number-pad"
+                        value={otp}
+                        onChangeText={setOtp}
+                        maxLength={4}
+                    />
+                    <TouchableOpacity style={styles.button} onPress={handleVerifyOtp}>
+                        <Text style={styles.buttonText}>Verify & Login</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => setIsOtpSent(false)} style={styles.linkButton}>
+                        <Text style={styles.linkText}>Change Phone Number</Text>
+                    </TouchableOpacity>
+                </>
+            )}
+
+            <View style={styles.footer}>
+                <Text style={styles.footerText}>Don't have an account? </Text>
+                <Link href="/register" asChild>
+                    <TouchableOpacity>
+                        <Text style={styles.linkText}>Register</Text>
+                    </TouchableOpacity>
+                </Link>
+            </View>
+        </View>
+    );
+};
+
+export default LoginScreen;
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: "#f5f7fa",
+        justifyContent: "center",
+        paddingHorizontal: 30,
+    },
+    title: {
+        fontSize: 28,
+        fontWeight: "bold",
+        textAlign: "center",
+        marginBottom: 10,
+        color: "#6A0DAD",
+    },
+    subtitle: {
+        fontSize: 16,
+        textAlign: "center",
+        marginBottom: 30,
+        color: "#555",
+    },
+    input: {
+        height: 50,
+        borderWidth: 1,
+        borderColor: "#ccc",
+        borderRadius: 10,
+        paddingHorizontal: 15,
+        marginBottom: 15,
+        backgroundColor: "#fff",
+        fontSize: 16,
+    },
+    button: {
+        backgroundColor: "#6A0DAD",
+        paddingVertical: 15,
+        borderRadius: 10,
+        alignItems: "center",
+        marginTop: 10,
+    },
+    buttonText: {
+        color: "#fff",
+        fontSize: 16,
+        fontWeight: "bold",
+    },
+    footer: {
+        flexDirection: "row",
+        justifyContent: "center",
+        marginTop: 20,
+    },
+    footerText: {
+        fontSize: 14,
+        color: "#555",
+    },
+    linkButton: {
+        marginTop: 15,
+        alignItems: 'center'
+    },
+    linkText: {
+        fontSize: 14,
+        color: "#6A0DAD",
+        fontWeight: "bold",
+    },
+});
