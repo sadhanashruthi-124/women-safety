@@ -15,6 +15,9 @@ const LoginScreen = (): JSX.Element => {
     const [isOtpSent, setIsOtpSent] = useState(false);
     const router = useRouter();
 
+    // Dummy OTP for testing
+    const DUMMY_OTP = "1234";
+
     const handleSendOtp = () => {
         if (phoneNumber.length < 10) {
             Alert.alert("Invalid Phone Number", "Please enter a valid 10-digit phone number.");
@@ -22,18 +25,22 @@ const LoginScreen = (): JSX.Element => {
         }
         // Simulate sending OTP
         setIsOtpSent(true);
-        Alert.alert("OTP Sent", "A verification code has been sent to your phone.");
+        Alert.alert("OTP Sent", `A verification code has been sent to your phone.\n\nFor testing, use OTP: ${DUMMY_OTP}`);
     };
 
     const handleVerifyOtp = () => {
-        if (otp.length !== 4) { // Assuming 4-digit OTP for simplicity
+        if (otp.length !== 4) {
             Alert.alert("Invalid OTP", "Please enter a valid 4-digit OTP.");
             return;
         }
-        // Simulate verification
-        Alert.alert("Success", "Logged in successfully!", [
-            { text: "OK", onPress: () => console.log("Navigate to Home") }
-        ]);
+
+        // Verify against dummy OTP
+        if (otp === DUMMY_OTP) {
+            // Navigate directly to dashboard on success
+            router.push("/dashboard");
+        } else {
+            Alert.alert("Invalid OTP", "The OTP you entered is incorrect. Please try again.");
+        }
     };
 
     return (
@@ -59,6 +66,7 @@ const LoginScreen = (): JSX.Element => {
                 </>
             ) : (
                 <>
+                    <Text style={styles.otpHint}>💡 Test OTP: 1234</Text>
                     <TextInput
                         style={styles.input}
                         placeholder="Enter OTP"
@@ -149,5 +157,16 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: "#6A0DAD",
         fontWeight: "bold",
+    },
+    otpHint: {
+        fontSize: 14,
+        color: "#666",
+        textAlign: "center",
+        marginBottom: 10,
+        backgroundColor: "#fff3cd",
+        padding: 10,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: "#ffc107",
     },
 });
