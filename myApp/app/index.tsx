@@ -12,6 +12,7 @@ export default function Index() {
     >
       <Text>hello</Text>
       <Link href="/sample/exx">Vanakam</Link>
+      <Link href="/login">Login</Link>
     </View>
   );
 }
