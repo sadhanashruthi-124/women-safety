@@ -24,12 +24,14 @@ interface ActionGridProps {
     onStartJourney: () => void;
     onSafetyTimer: () => void;
     onStealthMode: () => void;
+    onAreaRiskMap: () => void;
 }
 
 const ActionGrid: React.FC<ActionGridProps> = ({
     onStartJourney,
     onSafetyTimer,
     onStealthMode,
+    onAreaRiskMap,
 }) => {
     return (
         <View style={styles.gridContainer}>
@@ -67,6 +69,22 @@ const ActionGrid: React.FC<ActionGridProps> = ({
                 >
                     <MaterialCommunityIcons name="incognito" size={28} color="#fff" style={{ marginBottom: 5 }} />
                     <Text style={styles.buttonText}>Stealth Mode</Text>
+                </TouchableOpacity>
+            </View>
+
+            <View style={styles.row}>
+                {/* Area Risk Map */}
+                <TouchableOpacity
+                    style={[styles.largeButton, { backgroundColor: "#E91E63", marginTop: 0 }]} // Pinkish Red
+                    onPress={onAreaRiskMap}
+                >
+                    <View style={styles.largeButtonContent}>
+                        <Ionicons name="map" size={24} color="#fff" style={styles.icon} />
+                        <View>
+                            <Text style={styles.largeButtonTitle}>Area Risk Map</Text>
+                            <Text style={styles.largeButtonSubtitle}>View Dangerous Zones</Text>
+                        </View>
+                    </View>
                 </TouchableOpacity>
             </View>
         </View>

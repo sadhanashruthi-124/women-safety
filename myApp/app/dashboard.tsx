@@ -35,6 +35,10 @@ const Dashboard = () => {
         Alert.alert("Stealth Mode", "App entered fake shutdown mode.");
     };
 
+    const handleAreaRiskMap = () => {
+        router.push("/areariskmap");
+    };
+
     return (
         <SafeAreaView style={styles.safeArea}>
             <ScrollView contentContainerStyle={styles.container}>
@@ -55,7 +59,9 @@ const Dashboard = () => {
                     onStartJourney={handleStartJourney}
                     onSafetyTimer={handleSafetyTimer}
                     onStealthMode={handleStealthMode}
+                    onAreaRiskMap={handleAreaRiskMap}
                 />
+
 
                 <View style={styles.footer}>
                     <Text style={styles.footerText}>SHE-GUARD Active</Text>
