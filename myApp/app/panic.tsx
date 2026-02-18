@@ -28,7 +28,12 @@ export default function Panic() {
                         } as any);
 
                         await api.post('/panic-detected', formData, {
-                            headers: { 'Content-Type': 'multipart/form-data' },
+                            headers: {
+                                'Content-Type': 'multipart/form-data',
+                            },
+                            transformRequest: () => {
+                                return formData;
+                            },
                         });
                         Alert.alert("Sent!", "Audio recorded and sent to emergency contacts.");
                     }

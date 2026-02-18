@@ -1,0 +1,52 @@
+2026-02-18 19:33:02,716 - --- Starting Backend API Tests ---
+2026-02-18 19:33:02,716 - 
+1. Testing /register
+2026-02-18 19:33:02,718 -    [SUCCESS] Register Success
+2026-02-18 19:33:02,718 - 
+2. Testing /login
+2026-02-18 19:33:02,729 -    [SUCCESS] Login Success
+2026-02-18 19:33:02,729 - 
+3. Testing /verify-otp (Invalid case)
+2026-02-18 19:33:02,731 -    [SUCCESS] Verify OTP (Invalid) Handled Correctly
+2026-02-18 19:33:02,731 - 
+4. Testing /emergency-contacts
+2026-02-18 19:33:02,736 -    [FAIL] Contacts Failed: 404 {"detail":"Not Found"}
+2026-02-18 19:33:02,736 - 
+5. Testing /start-journey
+2026-02-18 19:33:02,740 -    [SUCCESS] Journey Started
+2026-02-18 19:33:02,740 - 
+6. Testing /location-update
+2026-02-18 19:33:02,742 -    [SUCCESS] Location Updated
+2026-02-18 19:33:02,742 - 
+7. Testing /stop-journey
+2026-02-18 19:33:02,745 -    [SUCCESS] Journey Stopped
+2026-02-18 19:33:02,745 - 
+8. Testing /panic-detected
+2026-02-18 19:33:02,775 -    [SUCCESS] Panic Detected
+2026-02-18 19:33:02,775 -    Response: {'message': 'Audio analyzed', 'panic_probability': 0.09030569483625163, 'is_panic': False}
+2026-02-18 19:35:13,195 - --- Starting Backend API Tests ---
+2026-02-18 19:35:13,195 - 
+1. Testing /register
+2026-02-18 19:35:13,216 -    [SUCCESS] Register Success
+2026-02-18 19:35:13,216 - 
+2. Testing /login
+2026-02-18 19:35:13,222 -    [SUCCESS] Login Success
+2026-02-18 19:35:13,222 - 
+3. Testing /verify-otp (Invalid case)
+2026-02-18 19:35:13,227 -    [SUCCESS] Verify OTP (Invalid) Handled Correctly
+2026-02-18 19:35:13,227 - 
+4. Testing /emergency-contacts
+2026-02-18 19:35:13,233 -    [SUCCESS] Contacts Saved
+2026-02-18 19:35:13,233 - 
+5. Testing /start-journey
+2026-02-18 19:35:13,236 -    [SUCCESS] Journey Started
+2026-02-18 19:35:13,236 - 
+6. Testing /location-update
+2026-02-18 19:35:13,238 -    [SUCCESS] Location Updated
+2026-02-18 19:35:13,238 - 
+7. Testing /stop-journey
+2026-02-18 19:35:13,238 -    [SUCCESS] Journey Stopped
+2026-02-18 19:35:13,238 - 
+8. Testing /panic-detected
+2026-02-18 19:35:16,822 -    [SUCCESS] Panic Detected
+2026-02-18 19:35:16,823 -    Response: {'message': 'Audio analyzed', 'panic_probability': 0.09030569483625163, 'is_panic': False}
