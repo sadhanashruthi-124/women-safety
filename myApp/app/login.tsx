@@ -1,61 +1,126 @@
+import React, { useState } from "react";
+import {
+    View,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    StyleSheet,
+    Alert,
+} from "react-native";
+import { Link, useRouter } from "expo-router";
 
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Alert } from 'react-native';
-import { router } from 'expo-router';
-import Input from '../components/Input';
-import Button from '../components/Button';
-import api from '../services/api';
+const LoginScreen = () => {
+    const [phone, setPhone] = useState("");
+    const [password, setPassword] = useState("");
+    const router = useRouter();
 
-export default function Login() {
-  const [phone, setPhone] = useState('');
-  const [password, setPassword] = useState('');
+    const handleLogin = async () => {
+        if (!phone || !password) {
+            Alert.alert("Error", "Please fill in all fields.");
+            return;
+        }
 
-  const handleLogin = async () => {
-    if (!phone || !password) {
-      Alert.alert('Error', 'Please fill all fields');
-      return;
-    }
+        // Simulating login success for now as per current project state
+        console.log("Login Attempt:", { phone, password });
 
-    try {
-      await api.post('/login', { phone, password });
-      // In a real app, save token here
-      router.replace('/home');
-    } catch (error) {
-      Alert.alert('Error', 'Login failed');
-    }
-  };
+        // Navigate to home after successful simulation
+        router.push("/dashboard");
+    };
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Welcome Back</Text>
+    return (
+        <View style={styles.container}>
+            <Text style={styles.title}>SHE-GUARD</Text>
+            <Text style={styles.subtitle}>Login to Your Account</Text>
 
-      <Input placeholder="Phone Number" value={phone} onChangeText={setPhone} keyboardType="phone-pad" />
-      <Input placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry />
+            <TextInput
+                style={styles.input}
+                placeholder="Phone Number"
+                keyboardType="phone-pad"
+                value={phone}
+                onChangeText={setPhone}
+                maxLength={10}
+            />
 
-      <Button title="Login" onPress={handleLogin} style={{ marginTop: 20 }} />
+            <TextInput
+                style={styles.input}
+                placeholder="Password"
+                secureTextEntry
+                value={password}
+                onChangeText={setPassword}
+            />
 
-      <Button
-        title="New User? Register"
-        onPress={() => router.push('/register')}
-        variant="outline"
-        style={{ marginTop: 10 }}
-      />
-    </View>
-  );
-}
+            <TouchableOpacity style={styles.button} onPress={handleLogin}>
+                <Text style={styles.buttonText}>Login</Text>
+            </TouchableOpacity>
+
+            <View style={styles.footer}>
+                <Text style={styles.footerText}>Don't have an account? </Text>
+                <Link href="/register" asChild>
+                    <TouchableOpacity>
+                        <Text style={styles.linkText}>Register</Text>
+                    </TouchableOpacity>
+                </Link>
+            </View>
+        </View>
+    );
+};
+
+export default LoginScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 40,
-    textAlign: 'center',
-    color: '#333',
-  },
+    container: {
+        flex: 1,
+        backgroundColor: "#f5f7fa",
+        justifyContent: "center",
+        paddingHorizontal: 30,
+    },
+    title: {
+        fontSize: 28,
+        fontWeight: "bold",
+        textAlign: "center",
+        marginBottom: 10,
+        color: "#6A0DAD",
+    },
+    subtitle: {
+        fontSize: 16,
+        textAlign: "center",
+        marginBottom: 30,
+        color: "#555",
+    },
+    input: {
+        height: 50,
+        borderWidth: 1,
+        borderColor: "#ccc",
+        borderRadius: 10,
+        paddingHorizontal: 15,
+        marginBottom: 15,
+        backgroundColor: "#fff",
+        fontSize: 16,
+    },
+    button: {
+        backgroundColor: "#6A0DAD",
+        paddingVertical: 15,
+        borderRadius: 10,
+        alignItems: "center",
+        marginTop: 10,
+    },
+    buttonText: {
+        color: "#fff",
+        fontSize: 16,
+        fontWeight: "bold",
+    },
+    footer: {
+        flexDirection: "row",
+        justifyContent: "center",
+        marginTop: 20,
+    },
+    footerText: {
+        fontSize: 14,
+        color: "#555",
+    },
+    linkText: {
+        fontSize: 14,
+        color: "#6A0DAD",
+        fontWeight: "bold",
+    },
 });
