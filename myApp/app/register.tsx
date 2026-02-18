@@ -9,6 +9,7 @@ import {
     Alert,
 } from "react-native";
 import { Link, useRouter } from "expo-router";
+import api from "../services/api";
 
 interface Contact {
     id: number;
@@ -20,7 +21,6 @@ interface Contact {
 const RegistrationScreen = () => {
     const router = useRouter();
     const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
     const [password, setPassword] = useState("");
 
@@ -56,9 +56,9 @@ const RegistrationScreen = () => {
         }
     };
 
-    const handleRegister = () => {
+    const handleRegister = async () => {
         // Basic validation
-        if (!name || !email || !phone || !password) {
+        if (!name || !phone || !password) {
             Alert.alert("Error", "Please fill in all personal details.");
             return;
         }
@@ -69,18 +69,37 @@ const RegistrationScreen = () => {
             return;
         }
 
-        console.log("Registration Data:", {
-            name,
-            email,
-            phone,
-            password,
-            contacts: validContacts
-        });
+        try {
+            // 1. Register User
+            await api.post('/register', {
+                name,
+                phone,
+                password,
+                preferences: {} // Optional
+            });
 
-        // Navigate to login or home after successful registration simulation
-        Alert.alert("Success", "Account created successfully!", [
-            { text: "OK", onPress: () => router.push("/login") }
-        ]);
+            // 2. Save Contacts (fire and forget or wait, usually wait)
+            // The backend endpoint for contacts currently just prints them, but we should send them.
+            // Adjust payload to match schema: { contacts: [{ name, phone, id? }] }
+            const contactsPayload = validContacts.map(c => ({
+                name: c.name,
+                phone: c.phone
+            }));
+
+            await api.post('/emergency-contacts', {
+                user_phone: phone, // Link contacts to this user
+                contacts: contactsPayload
+            });
+
+            // 3. Navigate to OTP
+            // Pass phone to OTP screen for verification context
+            router.push({ pathname: "/otp", params: { phone } });
+
+        } catch (error: any) {
+            console.log('Registration error:', error);
+            const msg = error.response?.data?.detail || "Registration failed. Please try again.";
+            Alert.alert("Error", typeof msg === 'string' ? msg : JSON.stringify(msg));
+        }
     };
 
     return (
@@ -97,14 +116,7 @@ const RegistrationScreen = () => {
                     onChangeText={setName}
                 />
 
-                <TextInput
-                    style={styles.input}
-                    placeholder="Email Address"
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                    value={email}
-                    onChangeText={setEmail}
-                />
+                {/* Email removed as per request */}
 
                 <TextInput
                     style={styles.input}

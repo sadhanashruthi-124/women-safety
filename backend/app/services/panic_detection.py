@@ -51,7 +51,7 @@ class PanicDetector:
         probas = self.model.predict_proba(features)
         # Assuming class 1 is panic
         panic_prob = probas[0][1]
-        
+        print(panic_prob)
         return panic_prob
 
 detector = PanicDetector()

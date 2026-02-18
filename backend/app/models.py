@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
 from app.database import Base
 
 class User(Base):
@@ -9,6 +10,15 @@ class User(Base):
     phone = Column(String, index=True, unique=True)
     password = Column(String)
     otp = Column(String, nullable=True)
-    # For MVP, we'll store preferences as a simple JSON-compatible string or skip if complexity is high without migrations.
-    # But to support the schema, let's just add it if we can drop/create DB.
-    # preferences = Column(JSON, nullable=True)
+    
+    contacts = relationship("Contact", back_populates="owner")
+
+class Contact(Base):
+    __tablename__ = "contacts"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String)
+    phone = Column(String)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    
+    owner = relationship("User", back_populates="contacts")

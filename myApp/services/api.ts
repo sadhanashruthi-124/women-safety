@@ -4,7 +4,7 @@ import axios from 'axios';
 // Base URL for local backend (Android emulator requires specific IP, keeping localhost for now as per instructions)
 // For Android Emulator use '10.0.2.2', for Genymotion '10.0.3.2', for iOS 'localhost'
 // The user specified 'localhost:8000', so we stick to that.
-const API_URL = 'http://192.168.1.102:8000';
+const API_URL = 'http://10.67.77.22:8000';
 
 const api = axios.create({
   baseURL: API_URL,

@@ -8,6 +8,7 @@ import {
     Alert,
 } from "react-native";
 import { Link, useRouter } from "expo-router";
+import api from "../services/api";
 
 const LoginScreen = () => {
     const [phone, setPhone] = useState("");
@@ -20,11 +21,15 @@ const LoginScreen = () => {
             return;
         }
 
-        // Simulating login success for now as per current project state
-        console.log("Login Attempt:", { phone, password });
-
-        // Navigate to home after successful simulation
-        router.push("/dashboard");
+        try {
+            await api.post('/login', { phone, password });
+            console.log("Login Successful");
+            router.push("/home");
+        } catch (error: any) {
+            console.log('Login failed', error);
+            const msg = error.response?.data?.detail || "Login failed. Please check credentials and try again.";
+            Alert.alert("Error", typeof msg === 'string' ? msg : JSON.stringify(msg));
+        }
     };
 
     return (

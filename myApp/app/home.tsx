@@ -31,6 +31,7 @@ export default function Home() {
         { title: 'Journey & Timer', icon: 'navigate', route: '/journey', color: '#4CAF50' },
         { title: 'Fake Shutdown', icon: 'power', route: '/fake-shutdown', color: '#212121' },
         { title: 'Panic Mode', icon: 'warning', route: '/panic', color: '#E91E63' },
+        { title: 'Area Risk Map', icon: 'map', route: '/areariskmap', color: '#FF9800' },
     ] as const;
 
     return (

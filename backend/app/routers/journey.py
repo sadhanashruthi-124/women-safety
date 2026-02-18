@@ -22,3 +22,9 @@ def location_update(location: schemas.LocationUpdate):
 def timer_expired():
     print("ALARM: Timer Expired! notify contacts via SMS (Pending)")
     return {"message": "Timer expired alert received"}
+
+@router.post("/trigger-sos")
+def trigger_sos(location: schemas.LocationUpdate):
+    print(f"SOS TRIGGERED at {location.latitude}, {location.longitude}")
+    # In real app: Send SMS to contacts, Notify Police
+    return {"message": "SOS Alert Sent"}

@@ -22,17 +22,16 @@ const Dashboard = () => {
     };
 
     const handleStartJourney = () => {
-        Alert.alert("Journey Started", "Route monitoring activated.");
-        // router.push("/journey");
+        router.push("/journey");
     };
 
     const handleSafetyTimer = () => {
-        Alert.alert("Safety Timer", "Configure your check-in timer.");
-        // router.push("/timer");
+        // Safety timer is part of journey screen
+        router.push("/journey");
     };
 
     const handleStealthMode = () => {
-        Alert.alert("Stealth Mode", "App entered fake shutdown mode.");
+        router.push("/fake-shutdown");
     };
 
     const handleAreaRiskMap = () => {

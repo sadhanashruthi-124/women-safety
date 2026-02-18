@@ -102,16 +102,17 @@ export default function Journey() {
                     setLocation(newLocation.coords);
 
                     // Send update to API
+                    // Backend Schema: LocationUpdate(latitude, longitude, speed, timestamp)
                     api.post('/location-update', {
                         latitude,
                         longitude,
-                        speed,
+                        speed: speed || 0,
                         timestamp: newLocation.timestamp
                     }).catch(err => console.log('Location upload failed', err));
                 }
             );
 
-        } catch (error) {
+        } catch (error: any) {
             Alert.alert('Error', 'Could not start journey');
             console.log(error);
         }

@@ -1,33 +1,61 @@
-import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, BackHandler, TouchableOpacity, StatusBar } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { StyleSheet, BackHandler, TouchableOpacity, Platform, AppState } from 'react-native';
 import * as Haptics from 'expo-haptics';
 import * as NavigationBar from 'expo-navigation-bar';
+import { StatusBar, setStatusBarHidden } from 'expo-status-bar';
 import { router, Stack } from 'expo-router';
+import { useKeepAwake } from 'expo-keep-awake';
 import api from '../services/api';
 
 export default function FakeShutdown() {
+    useKeepAwake(); // Prevent screen from sleeping
+
+    const appState = useRef(AppState.currentState);
 
     useEffect(() => {
         // Notify backend
         api.post('/fake-shutdown').catch(() => { });
 
-        // Hide Status Bar and Navigation Bar
-        StatusBar.setHidden(true);
-        StatusBar.setBackgroundColor("#000000"); // Fail-safe for Android
+        const enableImmersiveMode = async () => {
+            // Hide Status Bar
+            setStatusBarHidden(true, 'none');
 
-        NavigationBar.setPositionAsync('absolute');
-        NavigationBar.setVisibilityAsync("hidden");
-        NavigationBar.setBackgroundColorAsync("#000000"); // Fail-safe
-        NavigationBar.setBehaviorAsync('overlay-swipe');
+            // Hide Navigation Bar (Android)
+            if (Platform.OS === 'android') {
+                try {
+                    await NavigationBar.setVisibilityAsync("hidden");
+                    await NavigationBar.setBehaviorAsync("overlay-swipe");
+                    await NavigationBar.setBackgroundColorAsync("#000000");
+                } catch (e) {
+                    console.log("Failed to hide navigation bar", e);
+                }
+            }
+        };
+
+        enableImmersiveMode();
+
+        // Re-apply on foreground
+        const subscription = AppState.addEventListener("change", nextAppState => {
+            if (
+                appState.current.match(/inactive|background/) &&
+                nextAppState === "active"
+            ) {
+                enableImmersiveMode();
+            }
+            appState.current = nextAppState;
+        });
 
         // Disable Back Button (Android)
         const backHandler = BackHandler.addEventListener('hardwareBackPress', () => true);
 
         return () => {
             // Restore on exit
+            subscription.remove();
             backHandler.remove();
-            StatusBar.setHidden(false);
-            NavigationBar.setVisibilityAsync("visible");
+            setStatusBarHidden(false, 'slide');
+            if (Platform.OS === 'android') {
+                NavigationBar.setVisibilityAsync("visible");
+            }
         };
     }, []);
 
@@ -45,7 +73,7 @@ export default function FakeShutdown() {
             delayLongPress={3000} // 3 Seconds to exit
         >
             <Stack.Screen options={{ headerShown: false }} />
-            <StatusBar hidden />
+            <StatusBar style="light" hidden={true} backgroundColor="#000000" />
         </TouchableOpacity>
     );
 }

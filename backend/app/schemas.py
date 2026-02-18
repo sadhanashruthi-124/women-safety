@@ -33,6 +33,7 @@ class Contact(BaseModel):
     id: str | None = None
 
 class ContactList(BaseModel):
+    user_phone: str
     contacts: list[Contact]
 
 class LocationUpdate(BaseModel):

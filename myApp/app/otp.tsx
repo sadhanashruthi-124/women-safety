@@ -18,8 +18,8 @@ export default function OTP() {
 
         try {
             await api.post('/verify-otp', { phone, otp });
-            Alert.alert('Success', 'Phone verified!');
-            router.replace('/emergency-contacts'); // Go to setup contacts after verification
+            Alert.alert('Success', 'Phone verified! Please login.');
+            router.replace('/login');
         } catch (error) {
             Alert.alert('Error', 'Invalid OTP');
         }
