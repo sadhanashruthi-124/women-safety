@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState } from "react";
 import {
     View,
@@ -40,11 +41,38 @@ const LoginScreen = (): JSX.Element => {
             router.push("/dashboard");
         } else {
             Alert.alert("Invalid OTP", "The OTP you entered is incorrect. Please try again.");
+=======
+
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, Alert } from 'react-native';
+import { router } from 'expo-router';
+import Input from '../components/Input';
+import Button from '../components/Button';
+import api from '../services/api';
+
+export default function Login() {
+    const [phone, setPhone] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleLogin = async () => {
+        if (!phone || !password) {
+            Alert.alert('Error', 'Please fill all fields');
+            return;
+        }
+
+        try {
+            await api.post('/login', { phone, password });
+            // In a real app, save token here
+            router.replace('/home');
+        } catch (error) {
+            Alert.alert('Error', 'Login failed');
+>>>>>>> ee8fb7dece66f4287f9ed2855d0dc25d29f1dbd6
         }
     };
 
     return (
         <View style={styles.container}>
+<<<<<<< HEAD
             <Text style={styles.title}>SHE-GUARD</Text>
             <Text style={styles.subtitle}>
                 {isOtpSent ? "Enter Verification Code" : "Login to Your Account"}
@@ -97,10 +125,29 @@ const LoginScreen = (): JSX.Element => {
 };
 
 export default LoginScreen;
+=======
+            <Text style={styles.title}>Welcome Back</Text>
+
+            <Input placeholder="Phone Number" value={phone} onChangeText={setPhone} keyboardType="phone-pad" />
+            <Input placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry />
+
+            <Button title="Login" onPress={handleLogin} style={{ marginTop: 20 }} />
+
+            <Button
+                title="New User? Register"
+                onPress={() => router.push('/register')}
+                variant="outline"
+                style={{ marginTop: 10 }}
+            />
+        </View>
+    );
+}
+>>>>>>> ee8fb7dece66f4287f9ed2855d0dc25d29f1dbd6
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+<<<<<<< HEAD
         backgroundColor: "#f5f7fa",
         justifyContent: "center",
         paddingHorizontal: 30,
@@ -168,5 +215,17 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         borderWidth: 1,
         borderColor: "#ffc107",
+=======
+        padding: 20,
+        justifyContent: 'center',
+        backgroundColor: '#fff',
+    },
+    title: {
+        fontSize: 28,
+        fontWeight: 'bold',
+        marginBottom: 40,
+        textAlign: 'center',
+        color: '#333',
+>>>>>>> ee8fb7dece66f4287f9ed2855d0dc25d29f1dbd6
     },
 });
