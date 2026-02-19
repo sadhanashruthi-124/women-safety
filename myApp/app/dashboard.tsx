@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, ScrollView, Alert, SafeAreaView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Alert, SafeAreaView, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import SafetyStatusCard from "../components/SafetyStatusCard";
 import SOSButton from "../components/SOSButton";
@@ -56,6 +56,15 @@ const Dashboard = () => {
                     onSafetyTimer={handleSafetyTimer}
                     onStealthMode={handleStealthMode}
                 />
+
+                <View style={{ marginTop: 20, width: '100%' }}>
+                    <TouchableOpacity
+                        style={{ backgroundColor: '#fff', padding: 15, borderRadius: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', elevation: 2 }}
+                        onPress={() => router.push('/areariskmap')}
+                    >
+                        <Text style={{ fontWeight: 'bold', color: '#DC3545' }}>View Risk Heatmap</Text>
+                    </TouchableOpacity>
+                </View>
 
                 <View style={styles.footer}>
                     <Text style={styles.footerText}>SHE-GUARD Active</Text>

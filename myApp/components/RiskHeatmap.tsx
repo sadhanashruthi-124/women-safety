@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import MapView, { Circle, Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { Circle, PROVIDER_GOOGLE } from 'react-native-maps';
 import { RiskData } from '../services/RiskService';
 
 interface RiskHeatmapProps {
@@ -20,9 +20,9 @@ const RiskHeatmap: React.FC<RiskHeatmapProps> = ({ userLocation, riskData, showH
 
     const getCircleColor = (level: string) => {
         switch (level) {
-            case 'High': return 'rgba(255, 0, 0, 0.4)'; // Red
-            case 'Moderate': return 'rgba(255, 165, 0, 0.4)'; // Orange
-            case 'Low': return 'rgba(0, 255, 0, 0.4)'; // Green
+            case 'High': return 'rgba(220, 53, 69, 0.4)'; // Red
+            case 'Moderate': return 'rgba(255, 193, 7, 0.4)'; // Amber
+            case 'Low': return 'rgba(40, 167, 69, 0.4)'; // Green
             default: return 'rgba(128, 128, 128, 0.4)';
         }
     };
@@ -44,7 +44,7 @@ const RiskHeatmap: React.FC<RiskHeatmapProps> = ({ userLocation, riskData, showH
                 <Circle
                     key={point.id}
                     center={{ latitude: point.latitude, longitude: point.longitude }}
-                    radius={500}
+                    radius={800} // Increased radius for better visibility
                     fillColor={getCircleColor(point.riskLevel)}
                     strokeColor="transparent"
                 />
